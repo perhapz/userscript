@@ -7,6 +7,7 @@
 // @include        http://www.freedl.org/*
 // @include        http://www.alabout.com/*
 // @include        http://alabout.com/*
+// @grant          GM_xmlhttpRequest
 // ==/UserScript==
 var box = document.createElement('input');
 box.type = "checkbox";
@@ -15,7 +16,7 @@ document.body.insertBefore(box, document.body.firstChild);
 var link = document.getElementsByTagName('a');
 var pattLink = /http:\/\/(www\.)?(alabout|alafs)\.com\/j\.phtml\?url=/;
 pattLink.compile(pattLink);
-var pattSite = /mrjh\.org|pics\.dmm\.co\.jp|imgchili\.com|imageporter\.com|imagecarry\.com|imagedunk\.com|picleet\.com|picturedip\.com|piclambo\.net|yankoimages\.net|imagetwist\.com|imagehyper\.com/i;
+var pattSite = /mrjh\.org|pics\.dmm\.co\.jp|imgchili\.com|imgdino\.com|imageporter\.com|imagecarry\.com|imagedunk\.com|picleet\.com|picturedip\.com|piclambo\.net|yankoimages\.net|imagetwist\.com|imagehyper\.com/i;
 pattSite.compile(pattSite);
 for (var i = 0, len = link.length; i < len; i++) {
   if (pattLink.test(link[i].href)) {
@@ -32,6 +33,7 @@ for (var i = 0, len = link.length; i < len; i++) {
       fixLink(link[i]);
       break;
     case 'imgchili.com':
+    case 'imgdino.com':
     case 'imageporter.com':
     case 'imagecarry.com':
     case 'imagedunk.com':
@@ -69,7 +71,7 @@ function requestPic() {
     method: "GET",
     url: link.href,
     onload: function (response) {
-      var src = response.responseText.match(/http:\/\/(img\d\d|i\d\.imgchili|img\d\.imagehyper\.com\/img)[^"\s]+/);
+      var src = response.responseText.match(/http:\/\/(img\d\d|i\d\.imgchili|img\d\.imgdino|img\d\.imagehyper\.com\/img)[^"\s]+/);
       var img = document.createElement('img');
       if (src) {
         img.src = src[0];
