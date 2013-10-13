@@ -2,10 +2,11 @@
 // @name           DMMGirl
 // @namespace      null
 // @description    DMM.R18/mono/dvd tweak for non-member: show big cover, preload sample picture, local wishlist, remove member functions...
-// @version        1.0.9
+// @version        1.1.0
 // @updateURL      https://userscripts.org/scripts/source/123770.meta.js
 // @include        http://www.dmm.co.jp/mono/dvd/-/list/*
 // @include        http://www.dmm.co.jp/error/-/area/=/navi=none/*
+// @include        http://www.dmm.co.jp/top/-/error/area/*
 // @include        http://www.dmm.co.jp/mono/dvd/-/detail/=/cid=*
 // ==/UserScript==
 var detail = {
@@ -106,7 +107,7 @@ var detail = {
     add.textContent = 'Add to Wishlist';
     add.addEventListener('click', this.onAddWish, false);
     var view = document.createElement('a');
-    view.href = '/error/-/area/=/navi=none/';
+    view.href = '/top/-/error/area/';
     view.textContent = 'View Wishlist';
     var search = document.createElement('a');
     search.href = 'https://www.google.com/#q=' + getCid(location.pathname, true)[0];
@@ -281,7 +282,7 @@ var fav = {
   },
   addLink: function() {
     var wishLink = document.createElement('a');
-    wishLink.href = '/error/-/area/=/navi=none/';
+    wishLink.href = '/top/-/error/area/';
     wishLink.textContent = 'Wishlist';
     wishLink.style.marginLeft = '5px';
     var key = document.getElementsByClassName('popular-keyword')[0];
@@ -341,6 +342,12 @@ var addfav = {
     this.addFav();
   },
   addFav: function() {
+    var actress = document.getElementById('performer');
+    var performer = actress.querySelectorAll('a');
+    for(var c = 0 ; c < performer.length; c++) {
+      actress.parentNode.insertBefore(performer[c], actress);
+    }
+    actress.parentNode.removeChild(actress);
     var tds = document.getElementsByClassName('nw');
     var k = [3, 6, 8]; //3:actress, 6: maker, 8: genre
     for(var i = 0; i < k.length; i++) {
@@ -519,7 +526,7 @@ function removeChildren(e) {
 }
 
 (function() {
-  var page = /\/error\/-\/area\/=|\/detail\/|\/list\//.exec(location.pathname);
+  var page = /\/top\/-\/error\/area\/|\/detail\/|\/list\//.exec(location.pathname);
   var config = {
     comment: true,
     //remove comments
@@ -530,7 +537,7 @@ function removeChildren(e) {
     list.init();
     fav.init();
     break;
-  case '/error/-/area/=':
+  case '/top/-/error/area/':
     wish.init();
     break;
   case '/detail/':
