@@ -2,7 +2,7 @@
 // @name           DMMGirl
 // @namespace      null
 // @description    DMM.R18/mono/dvd tweak for non-member: show big cover, preload sample picture, local wishlist, remove member functions...
-// @version        1.1.0
+// @version        1.1.1
 // @updateURL      https://userscripts.org/scripts/source/123770.meta.js
 // @include        http://www.dmm.co.jp/mono/dvd/-/list/*
 // @include        http://www.dmm.co.jp/error/-/area/=/navi=none/*
@@ -239,7 +239,7 @@ var wish = {
     }
     for(var i = 0, j = 0; i < localStorage.length; i++) {
       var cid = localStorage.key(i);
-      if(cid[0] !== '#') {
+      if(cid[0] !== '#' && cid[0] !== '_') {
         var info = localStorage[cid].split('#'); //Date[0]#Actress[1]#Maker[2]#Title[3]
         info[1] = info[1].replace(/></g, '><br /><');
         this.dvd[j] = new Dvd(cid, info[0], info[1], info[2], info[3]);
