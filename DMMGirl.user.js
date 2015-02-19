@@ -3,9 +3,9 @@
 // @namespace      null
 // @description    DMM.R18/mono/dvd tweak for non-member: show big cover, preload sample picture, local wishlist, remove member functions...
 // @version        1.1.1
-// @updateURL      https://userscripts.org/scripts/source/123770.meta.js
+// @grant          GM_addStyle
+// @include        http://www.dmm.co.jp/*
 // @include        http://www.dmm.co.jp/mono/dvd/-/list/*
-// @include        http://www.dmm.co.jp/error/-/area/=/navi=none/*
 // @include        http://www.dmm.co.jp/top/-/error/area/*
 // @include        http://www.dmm.co.jp/mono/dvd/-/detail/=/cid=*
 // ==/UserScript==
@@ -239,7 +239,7 @@ var wish = {
     }
     for(var i = 0, j = 0; i < localStorage.length; i++) {
       var cid = localStorage.key(i);
-      if(cid[0] !== '#' && cid[0] !== '_') {
+      if(cid[0] !== '#' && cid[0] !== '_' && cid.slice(0,3) !== 'cX_') {
         var info = localStorage[cid].split('#'); //Date[0]#Actress[1]#Maker[2]#Title[3]
         info[1] = info[1].replace(/></g, '><br /><');
         this.dvd[j] = new Dvd(cid, info[0], info[1], info[2], info[3]);
@@ -526,25 +526,29 @@ function removeChildren(e) {
 }
 
 (function() {
+  //hide welcome
+  GM_addStyle('#welcome {display:none !important;}');
   var page = /\/top\/-\/error\/area\/|\/detail\/|\/list\//.exec(location.pathname);
-  var config = {
-    comment: true,
-    //remove comments
-    preload: false //auto preload
-  };
-  switch(page[0]) {
-  case '/list/':
-    list.init();
-    fav.init();
-    break;
-  case '/top/-/error/area/':
-    wish.init();
-    break;
-  case '/detail/':
-    detail.init(config);
-    sample.init();
-    fav.init();
-    addfav.init();
-    break;
+  if(page) {
+    var config = {
+      comment: true,
+      //remove comments
+      preload: false //auto preload
+    };
+    switch(page[0]) {
+    case '/list/':
+      list.init();
+      fav.init();
+      break;
+    case '/top/-/error/area/':
+      wish.init();
+      break;
+    case '/detail/':
+      detail.init(config);
+      sample.init();
+      fav.init();
+      addfav.init();
+      break;
+    }
   }
 })();
