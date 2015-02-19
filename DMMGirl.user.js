@@ -2,7 +2,7 @@
 // @name           DMMGirl
 // @namespace      null
 // @description    DMM.R18/mono/dvd tweak for non-member: show big cover, preload sample picture, local wishlist, remove member functions...
-// @version        1.1.1
+// @version        1.1.2
 // @grant          GM_addStyle
 // @include        http://www.dmm.co.jp/*
 // @include        http://www.dmm.co.jp/mono/dvd/-/list/*
